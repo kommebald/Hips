@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>HIPS - Supernova Crunch</title>
+   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+   <style>
+       :root {
+           --primary: #ffcc00;
+           --secondary: #ff3300; /* Knalliges Rot */
+           --bg: #05070a;
+           --card-bg: rgba(20, 25, 35, 0.8);
+           --text: #ffffff;
+           --glow: 0 0 15px rgba(255, 51, 0, 0.6);
+       }
+
+       body {
+           margin: 0;
+           font-family: 'Inter', sans-serif;
+           background-color: var(--bg);
+           color: var(--text);
+           overflow-x: hidden;
+           /* Animierter Sternenhimmel-Hintergrund */
+           background-image: 
+               radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+               radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+               radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+               radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+           background-repeat: repeat;
+           background-size: 200px 200px;
+           animation: stars-move 100s linear infinite;
+       }
+
+       @keyframes stars-move {
+           from { background-position: 0 0; }
+           to { background-position: 0 1000px; }
+       }
+
+       h1, h2, h3 { font-family: 'Bungee', cursive; text-transform: uppercase; margin: 0; }
+
+       header {
+           padding: 20px;
+           text-align: center;
+           background: rgba(0, 0, 0, 0.8);
+           backdrop-filter: blur(15px);
+           border-bottom: 2px solid var(--secondary);
+           position: sticky;
+           top: 0;
+           z-index: 100;
+       }
+
+       .hero {
+           height: 90vh;
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           text-align: center;
+           background: radial-gradient(circle, rgba(255, 51, 0, 0.15) 0%, transparent 70%);
+       }
+
+       .hero h1 { 
+           font-size: clamp(4rem, 15vw, 8rem); 
+           color: var(--primary); 
+           text-shadow: 0 0 30px var(--secondary), 0 0 60px var(--secondary);
+           animation: pulse 2s ease-in-out infinite alternate;
+       }
+
+       @keyframes pulse {
+           from { transform: scale(1); filter: brightness(1); }
+           to { transform: scale(1.05); filter: brightness(1.3); }
+       }
+
+       .btn {
+           background: var(--secondary);
+           color: white;
+           padding: 20px 45px;
+           text-decoration: none;
+           border-radius: 50px;
+           font-weight: bold;
+           font-family: 'Bungee';
+           font-size: 1.2rem;
+           margin-top: 30px;
+           transition: all 0.3s;
+           box-shadow: 0 0 20px var(--secondary);
+           border: none;
+           cursor: pointer;
+       }
+
+       .btn:hover {
+           transform: scale(1.1) rotate(-2deg);
+           background: var(--primary);
+           color: black;
+           box-shadow: 0 0 40px var(--primary);
+       }
+
+       .products {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+           gap: 30px;
+           padding: 100px 20px;
+           max-width: 1200px;
+           margin: auto;
+       }
+
+       .card {
+           background: var(--card-bg);
+           padding: 30px;
+           border-radius: 30px;
+           text-align: center;
+           border: 1px solid rgba(255, 255, 255, 0.1);
+           transition: all 0.5s;
+           position: relative;
+           overflow: hidden;
+           animation: float 4s ease-in-out infinite;
+       }
+
+       .card:nth-child(2) { animation-delay: 1s; }
+       .card:nth-child(3) { animation-delay: 2s; }
+
+       @keyframes float {
+           0%, 100% { transform: translateY(0); }
+           50% { transform: translateY(-20px); }
+       }
+
+       .card:hover {
+           border-color: var(--secondary);
+           box-shadow: 0 0 30px rgba(255, 51, 0, 0.4);
+           transform: scale(1.05) translateY(-20px) !important;
+       }
+
+       .card h3 { color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; }
+
+       .team {
+           padding: 100px 20px;
+           text-align: center;
+           background: linear-gradient(to bottom, transparent, #120505);
+       }
+
+       .team-grid {
+           display: flex;
+           justify-content: center;
+           gap: 50px;
+           flex-wrap: wrap;
+           margin-top: 50px;
+       }
+
+       .member img {
+           width: 180px;
+           height: 180px;
+           border-radius: 50%;
+           border: 4px solid var(--secondary);
+           box-shadow: 0 0 20px var(--secondary);
+           transition: transform 0.3s;
+       }
+
+       .member:hover img {
+           transform: rotate(10deg) scale(1.1);
+       }
+
+       footer {
+           padding: 50px;
+           text-align: center;
+           border-top: 1px solid rgba(255,255,255,0.1);
+           color: #666;
+       }
+   </style>
+</head>
+<body>
+
+<header>
+   <nav><b>HIPS SNACKS</b> | SORTEN | TEAM | SHOP</nav>
+</header>
+
+<section class="hero">
+   <p style="letter-spacing: 5px; color: var(--secondary); font-weight: bold;">MISSION: MAXIMUM CRUNCH</p>
+   <h1>HIPS</h1>
+   <p>Der galaktische Knall für deine Geschmacksnerven.</p>
+   <a href="#" class="btn">JETZT PROBIEREN</a>
+</section>
+
+<section class="products">
+   <div class="card">
+       <h3>Cosmic Nebula</h3>
+       <p>Sour Cream & Chive</p>
+       <p style="color: var(--secondary); font-size: 0.8rem;">⚡️ SANFTES LEUCHTEN</p>
+   </div>
+   <div class="card" style="border: 1px solid var(--secondary);">
+       <h3 style="color: var(--secondary);">Galaxy BBQ</h3>
+       <p>Smoky & Spicy</p>
+       <p style="color: var(--secondary); font-size: 0.8rem;">🔥 SUPERNOVA EXPLOSION</p>
+   </div>
+   <div class="card">
+       <h3>Explosnova</h3>
+       <p>Salt & Vinegar</p>
+       <p style="color: var(--secondary); font-size: 0.8rem;">☄️ DER SCHARFE KNALL</p>
+   </div>
+</section>
+
+<section class="team">
+   <h2>Die Crunch-Captains</h2>
+   <div class="team-grid">
+       <div class="member">
+           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jan" alt="Jan">
+           <h4>Jan "The Crunch"</h4>
+           <p>Master of Universe</p>
+       </div>
+       <div class="member">
+           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Erik" alt="Erik">
+           <h4>Erik "The Rocket"</h4>
+           <p>Flight Director</p>
+       </div>
+   </div>
+</section>
+
+<footer>
+   &copy; 2026 HIPS SNACKS GMBH <br> 
+   <span style="color: var(--secondary);">Created by Jan & Erik - Built for the Galaxy</span>
+</footer>
+
+</body>
+</html>
