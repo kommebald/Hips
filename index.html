@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIPS - Galactic Snacks</title>
+    <style>
+        :root {
+            --accent: #ffcc00;
+            --fire: #ff4500;
+            --ice: #00d4ff;
+            --bg: #020205;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Weltraum-Hintergrund */
+        #space {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            z-index: -2;
+        }
+
+        /* --- Landing Page --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .hips-title {
+            font-size: clamp(5rem, 20vw, 15rem);
+            font-weight: 900;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 0 30px rgba(255, 204, 0, 0.5);
+            z-index: 10;
+            user-select: none;
+        }
+
+        .hips-title:hover {
+            transform: scale(1.1) rotateX(10deg);
+            text-shadow: 0 0 60px rgba(255, 204, 0, 0.8);
+        }
+
+        /* Rakete */
+        #rocket {
+            position: absolute;
+            bottom: -200px;
+            font-size: 4rem;
+            transition: transform 1s ease-in, bottom 1s ease-in;
+            z-index: 5;
+            filter: drop-shadow(0 0 20px var(--fire));
+            display: none;
+        }
+
+        /* Hyperdrive Effekt */
+        .stars-flash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* --- Chips Show --- */
+        #show-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 50px 5%;
+            background: linear-gradient(to bottom, transparent, #050510);
+        }
+
+        .product-card {
+            width: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            margin: 20px;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--accent);
+        }
+
+        .price {
+            position: absolute;
+            top: -20px; right: 20px;
+            background: var(--accent);
+            color: black;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .chip-image {
+            width: 100%;
+            height: 350px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7));
+        }
+
+        .fire-img { 
+            background: linear-gradient(45deg, #f00, #ff8000); 
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .ice-img { 
+            background: linear-gradient(45deg, #00d4ff, #002366); 
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .ingredients {
+            text-align: left;
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.5;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .brand-footer {
+            width: 100%;
+            text-align: center;
+            padding: 40px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        /* Animationen */
+        @keyframes launch {
+            0% { bottom: -200px; transform: translateX(0) scale(1); }
+            100% { bottom: 120vh; transform: translateX(0) scale(0.5); }
+        }
+
+        .flashing { animation: flashEffect 0.5s forwards; }
+        @keyframes flashEffect {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="space"></div>
+<div class="stars-flash" id="flash"></div>
+
+<section id="hero">
+    <div id="rocket">🚀</div>
+    <h1 class="hips-title" onclick="startSequence()">HIPS</h1>
+</section>
+
+<section id="show-section">
+    <div class="product-card">
+        <div class="price">3,49 €</div>
+        <div class="chip-image fire-img">
+            <h2 style="font-size: 3rem; transform: rotate(-10deg);">FIRE</h2>
+        </div>
+        <h2>GALAXY BBQ BLAST</h2>
+        <div class="ingredients">
+            <strong>Inhaltsstoffe:</strong> Galaktische Kartoffeln, Meteoriten-Chili, Sonnenblumenöl, Smoked Paprika, Rohrzucker, Meersalz, Zwiebelpulver.
+        </div>
+    </div>
+
+    <div class="product-card">
+        <div class="price">3,49 €</div>
+        <div class="chip-image ice-img">
+            <h2 style="font-size: 3rem; transform: rotate(-10deg);">SUPERNOVA</h2>
+        </div>
+        <h2>SUPERNOVA SALT & VINEGAR</h2>
+        <div class="ingredients">
+            <strong>Inhaltsstoffe:</strong> Kartoffeln, Andromeda-Essig, Meersalz, weißer Pfeffer, natürliche Aromen, Zitronensäure.
+        </div>
+    </div>
+
+    <div class="brand-footer">
+        ERSTELLT VON ERIK & JAN &bull; HIPS CHIPS 2026
+    </div>
+</section>
+
+<script>
+function startSequence() {
+    const rocket = document.getElementById('rocket');
+    const flash = document.getElementById('flash');
+    
+    // Rakete anzeigen und starten
+    rocket.style.display = 'block';
+    rocket.style.animation = 'launch 1s ease-in forwards';
+    
+    // Weißer Flash Effekt
+    setTimeout(() => {
+        flash.classList.add('flashing');
+    }, 600);
+
+    // Scrollen zur Show
+    setTimeout(() => {
+        document.getElementById('show-section').scrollIntoView();
+        // Reset für Rakete
+        setTimeout(() => {
+            rocket.style.display = 'none';
+            rocket.style.animation = '';
+            flash.classList.remove('flashing');
+        }, 1000);
+    }, 850);
+}
+</script>
+
+</body>
+</html>
