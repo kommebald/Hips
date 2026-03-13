@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIPS - Galactic Flavors</title>
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --accent: #ffcc00;
+            --fire-red: #e63946;
+            --supernova-blue: #0077b6;
+            --text-light: #f1f1f1;
+            --panel-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif; /* Falls nicht verfügbar, Arial nutzen */
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Hintergrund-Sterne */
+        .starfield {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* --- HAUPTSEITE (Hero) --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hips-logo {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 12rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            cursor: pointer;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hips-logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 40px rgba(255, 204, 0, 0.9);
+        }
+
+        /* Raketen-Animation */
+        .rocket-launch {
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50% 50% 10px 10px;
+            opacity: 0;
+            transition: bottom 1s ease-in, opacity 0.3s ease;
+            z-index: 5;
+            box-shadow: 0 0 50px var(--fire-red);
+        }
+
+        .rocket-launch::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 80px;
+            background: var(--fire-red);
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: fire 0.2s infinite alternate;
+        }
+
+        @keyframes fire {
+            from { transform: translateX(-50%) scaleY(1); opacity: 0.8; }
+            to { transform: translateX(-50%) scaleY(1.3); opacity: 1; }
+        }
+
+        /* Klasse zum Auslösen der Animation via JS */
+        .launching .rocket-launch {
+            opacity: 1;
+            bottom: 120vh; /* Fliegt aus dem Bild */
+        }
+        
+        .launching .hips-logo {
+            transform: scale(0.5) translateY(-50px);
+            opacity: 0;
+            transition: 1s ease-in;
+        }
+
+        /* --- CHIPS SHOW SEKTION --- */
+        #chips-show {
+            min-height: 100vh;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #000 0%, #050505 100%);
+        }
+
+        .show-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .show-header h2 {
+            font-size: 3.5rem;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        .chips-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .chip-pannel {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--panel-bg);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chip-pannel:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Preis-Tag */
+        .price-tag {
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transform: rotate(-5deg);
+        }
+
+        /* --- Integrierte Bilder (CSS & SVG) --- */
+        
+        /* Basis-Tüte Style */
+        .chip-bag {
+            width: 200px;
+            height: 300px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* FIRE CHIPS TÜTE (GALAXY BBQ) */
+        .bag-fire {
+            background: radial-gradient(circle, #ff6b35 0%, #e63946 70%, #800000 100%);
+            border: 2px solid #500;
+        }
+        .bag-fire::before { /* Flammen-Effekt */
+            content: '🔥'; font-size: 5rem; opacity: 0.3;
+        }
+
+        /* SUPERNOVA TÜTE */
+        .bag-supernova {
+            background: radial-gradient(circle, #caf0f8 0%, #0077b6 70%, #03045e 100%);
+            border: 2px solid #002;
+        }
+        .bag-supernova::before { /* Eis/Blitz-Effekt */
+            content: '❄️'; font-size: 5rem; opacity: 0.3;
+        }
+
+        /* Text-Inhalte im Pannel */
+        .chip-info {
+            width: 100%;
+            text-align: left;
+        }
+
+        .chip-info h3 {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            color: var(--text-light);
+        }
+
+        .flavor-text {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .ingredients-list {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsives Layout für Handys */
+        @media (max-width: 768px) {
+            .hips-logo { font-size: 6rem; }
+            .chips-container { flex-direction: column; align-items: center; }
+            .chip-pannel { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="starfield"></div>
+
+    <section id="hero">
+        <h1 class="hips-logo" onclick="launchToChips()">HIPS</h1>
+        <div class="rocket-launch"></div>
+    </section>
+
+    <section id="chips-show">
+        <div class="show-header">
+            <h2>DIE SHOW</h2>
+            <p>Erik & Jan präsentieren die galaktischen Bestseller.</p>
+        </div>
+
+        <div class="chips-container">
+            
+            <div class="chip-pannel">
+                <div class="price-tag">3,49 €</div>
+                <div class="chip-bag bag-fire">
+                    <span style="color:white; font-weight:bold; font-size:2rem; position:absolute;">FIRE</span>
+                </div>
+                <div class="chip-info">
+                    <h3>GALAXY BBQ BLAST</h3>
+                    <p class="flavor-text">Smoky & Spicy</p>
+                    <p class="ingredients-list">
+                        <b>Inhaltsstoffe:</b> Kartoffeln, Sonnenblumenöl, geräuchertes Paprikapulver, Meteoriten-Chili, brauner Rohrzucker, natürliches Raucharoma, Knoblauchkonzentrat, Zwiebelpulver.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chip-pannel">
+                <div class="price-tag">3,49 €</div>
+                <div class="chip-bag bag-supernova">
+                    <span style="color:white; font-weight:bold; font-size:1.8rem; position:absolute;">SUPERNOVA</span>
+                </div>
+                <div class="chip-info">
+                    <h3>SUPERNOVA</h3>
+                    <p class="flavor-text">Tangy Salt & Vinegar</p>
+                    <p class="ingredients-list">
+                        <b>Inhaltsstoffe:</b> Kartoffeln, Meersalz aus dem Andromeda-Sektor, destillierter Essig-Extrakt (Vorsicht: Scharf!), Zitronensäure, ein Hauch weißer Pfeffer.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>HIPS Chips - Eine Marke von Erik & Jan Production. &copy; 2026</p>
+    </footer>
+
+    <script>
+        function launchToChips() {
+            // 1. Animation aktivieren
+            document.body.classList.add('launching');
+            
+            // 2. Nach kurzer Verzögerung runterscrollen
+            setTimeout(function() {
+                document.getElementById('chips-show').scrollIntoView();
+                
+                // Optional: Animation zurücksetzen, falls man wieder hochscrollt
+                setTimeout(function() {
+                     document.body.classList.remove('launching');
+                }, 1000);
+            }, 800); // 800ms warten, bis die Rakete "abhebt"
+        }
+    </script>
+
+</body>
+</html>
